@@ -41,3 +41,6 @@ include/config
 
 # build
 build/
+
+# cmake-build
+cmake-build-*/
