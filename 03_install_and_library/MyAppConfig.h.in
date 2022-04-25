@@ -1,0 +1,4 @@
+// the configured options and settings for Tutorial
+#define SW_VERSION_MAJOR @MyApp_VERSION_MAJOR@
+#define SW_VERSION_MINOR @MyApp_VERSION_MINOR@
+#cmakedefine USE_MYMATH

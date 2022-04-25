@@ -1,0 +1,13 @@
+prefix=E:/learning/tools/cmake/cmake_practice/03_install_and_library/installation
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/E:/learning/tools/cmake/cmake_practice/03_install_and_library/installation/lib
+
+Name: libmy_lib
+Description: my library.
+URL: https://github.com/sovereignyy99/my_lib
+Version: 0.1.1
+CFlags: -I${includedir} -DPKG_CONFIG_DEFINES-NOTFOUND
+Libs: -L${libdir} -lspdlog -pthread
+Requires: 
+
