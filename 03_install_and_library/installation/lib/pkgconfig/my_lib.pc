@@ -1,7 +1,7 @@
 prefix=E:/learning/tools/cmake/cmake_practice/03_install_and_library/installation
 exec_prefix=${prefix}
 includedir=${prefix}/include
-libdir=${exec_prefix}/E:/learning/tools/cmake/cmake_practice/03_install_and_library/installation/lib
+libdir=${exec_prefix}/lib
 
 Name: libmy_lib
 Description: my library.

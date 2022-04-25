@@ -2,14 +2,16 @@
 - add lib
 - install
 - find package
+- cpack
 
 ## Having fun
 - build static lib
 - install and export
 - test/example using find_package
+- cpack files to ./rls
 
 ## Docs
-Documentation can be found in the [wiki](https://github.com/gabime/spdlog/wiki/1.-QuickStart) pages.
+Thank spdlog: [wiki](https://github.com/gabime/spdlog/wiki/1.-QuickStart)
 
 ---
 

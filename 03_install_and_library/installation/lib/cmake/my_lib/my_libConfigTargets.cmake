@@ -41,14 +41,20 @@ unset(_targetsNotDefined)
 unset(_expectedTargets)
 
 
-# The installation prefix configured by this project.
-set(_IMPORT_PREFIX "E:/learning/tools/cmake/cmake_practice/03_install_and_library/installation")
+# Compute the installation prefix relative to this file.
+get_filename_component(_IMPORT_PREFIX "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
+get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
+get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
+if(_IMPORT_PREFIX STREQUAL "/")
+  set(_IMPORT_PREFIX "")
+endif()
 
 # Create imported target my_lib::my_lib
 add_library(my_lib::my_lib STATIC IMPORTED)
 
 set_target_properties(my_lib::my_lib PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "E:/learning/tools/cmake/cmake_practice/03_install_and_library/installation/include"
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
   INTERFACE_LINK_LIBRARIES "Threads::Threads"
 )
 

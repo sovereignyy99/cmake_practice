@@ -21,9 +21,9 @@ message(STATUS "Build my_lib: ${MY_LIB_VERSION}")
 include(GNUInstallDirs)
 set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/installation")
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}/installation")
-set(CMAKE_INSTALL_LIBDIR "${CMAKE_INSTALL_PREFIX}/lib")
-set(CMAKE_INSTALL_BINDIR "${CMAKE_INSTALL_PREFIX}/bin")
-set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_PREFIX}/include")
+#set(CMAKE_INSTALL_LIBDIR "${CMAKE_INSTALL_PREFIX}/lib")
+#set(CMAKE_INSTALL_BINDIR "${CMAKE_INSTALL_PREFIX}/bin")
+#set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_PREFIX}/include")
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose Release or Debug" FORCE)
@@ -68,6 +68,9 @@ option(MY_LIB_BUILD_WARNINGS "Enable compiler warnings" OFF)
 
 # install options
 option(MY_LIB_INSTALL "Generate the install target" ON)
+# app options
+option(MY_LIB_BUILD_APP "Build app" OFF)
+
 
 if (MY_LIB_BUILD_ALL AND MY_LIB_BUILD_TESTS)
     message(FATAL_ERROR "test fatal error.")
@@ -103,12 +106,6 @@ set_target_properties(my_lib PROPERTIES DEBUG_POSTFIX d)
 # ---------------------------------------------------------------------------------------
 #add_library(my_lib SHARED ${MY_LIB_SRCS} ${MY_LIB_ALL_HEADERS})
 
-message(STATUS "---$---: CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
-message(STATUS "---$---: CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
-message(STATUS "---$---: CMAKE_INSTALL_LIBDIR = ${CMAKE_INSTALL_LIBDIR}")
-message(STATUS "---$---: CMAKE_INSTALL_BINDIR = ${CMAKE_INSTALL_BINDIR}")
-message(STATUS "---$---: CMAKE_INSTALL_INCLUDEDIR = ${CMAKE_INSTALL_INCLUDEDIR}")
-
 
 # ---------------------------------------------------------------------------------------
 # Build binaries
@@ -117,6 +114,13 @@ if (MY_LIB_BUILD_EXAMPLE OR MY_LIB_BUILD_ALL)
     message(STATUS "Generating example(s)")
     add_subdirectory(example)
     my_lib_enable_warnings(example)
+endif ()
+
+if (MY_LIB_BUILD_APP OR MY_LIB_BUILD_ALL)
+    message(STATUS "Generating app")
+    add_executable(my_app ./src/app.cpp ./src/my_lib/my_lib.cpp)
+    target_include_directories(my_app PRIVATE ${CMAKE_SOURCE_DIR}/include)
+    my_lib_enable_warnings(my_app)
 endif ()
 
 if (MY_LIB_BUILD_TESTS OR MY_LIB_BUILD_ALL)
@@ -149,13 +153,15 @@ if (MY_LIB_INSTALL)
     # Include files
     # ---------------------------------------------------------------------------------------
     install(DIRECTORY include/ DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" PATTERN)
-    install(
-            TARGETS my_lib
+    # install(DIRECTORY include/ DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}" PATTERN "*.h")
+    install(TARGETS my_lib
             EXPORT my_lib
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    )
+            # PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            # PRIVATE_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            )
 
     # ---------------------------------------------------------------------------------------
     # Install pkg-config file
@@ -184,3 +190,8 @@ if (MY_LIB_INSTALL)
     include(cmake/my_libCPack.cmake)
 endif ()
 
+message(STATUS "---$---: CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
+message(STATUS "---$---: CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "---$---: CMAKE_INSTALL_LIBDIR = ${CMAKE_INSTALL_LIBDIR}")
+message(STATUS "---$---: CMAKE_INSTALL_BINDIR = ${CMAKE_INSTALL_BINDIR}")
+message(STATUS "---$---: CMAKE_INSTALL_INCLUDEDIR = ${CMAKE_INSTALL_INCLUDEDIR}")

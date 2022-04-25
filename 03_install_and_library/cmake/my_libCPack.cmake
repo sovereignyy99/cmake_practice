@@ -1,4 +1,4 @@
-set(CPACK_GENERATOR "TGZ;ZIP" CACHE STRING "Semicolon separated list of generators")
+set(CPACK_GENERATOR "TGZ;NSIS;ZIP" CACHE STRING "Semicolon separated list of generators")
 
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY 0)
 set(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_BINARY_DIR}" "${PROJECT_NAME}" ALL .)
