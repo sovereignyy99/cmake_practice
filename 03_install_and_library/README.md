@@ -3,12 +3,14 @@
 - install
 - find package
 - cpack
+- doxygen
 
 ## Having fun
 - build static lib
 - install and export
 - test/example using find_package
 - cpack files to ./rls
+- enable doxygen
 
 ## Docs
 Thank spdlog: [wiki](https://github.com/gabime/spdlog/wiki/1.-QuickStart)

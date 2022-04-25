@@ -71,6 +71,9 @@ option(MY_LIB_INSTALL "Generate the install target" ON)
 # app options
 option(MY_LIB_BUILD_APP "Build app" OFF)
 
+#Doxygen
+option(MY_LIB_DOXYGEN_ENABLE "Enable doxygen" OFF)
+
 
 if (MY_LIB_BUILD_ALL AND MY_LIB_BUILD_TESTS)
     message(FATAL_ERROR "test fatal error.")
@@ -195,3 +198,43 @@ message(STATUS "---$---: CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "---$---: CMAKE_INSTALL_LIBDIR = ${CMAKE_INSTALL_LIBDIR}")
 message(STATUS "---$---: CMAKE_INSTALL_BINDIR = ${CMAKE_INSTALL_BINDIR}")
 message(STATUS "---$---: CMAKE_INSTALL_INCLUDEDIR = ${CMAKE_INSTALL_INCLUDEDIR}")
+
+
+# ---------------------------------------------------------------------------------------
+# Doxygen
+# ---------------------------------------------------------------------------------------
+if (MY_LIB_DOXYGEN_ENABLE)
+    find_package(Doxygen REQUIRED)
+
+    if (DOXYGEN_FOUND)
+        set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
+        set(DOXYGEN_GENERATE_LATEX NO)
+        set(DOXYGEN_GENERATE_HTML YES)
+        set(DOXYGEN_GENERATE_XML NO)
+        set(DOXYGEN_EXTRACT_ALL YES)
+        set(DOXYGEN_BUILTIN_STL_SUPPORT YES)
+        set(DOXYGEN_EXTRACT_PRIVATE YES)
+        set(DOXYGEN_EXTRACT_PACKAGE YES)
+        set(DOXYGEN_EXTRACT_STATIC YES)
+        set(DOXYGEN_WARN_NO_PARAMDOC YES)
+        set(DOXYGEN_HTML_OUTPUT .)
+        set(DOXYGEN_USE_MDFILE_AS_MAINPAGE README.md)
+        set(DOXYGEN_FILE_PATTERNS *.c *.cc *.cxx *.cpp *.c++ *.ii *.ixx *.ipp *.i++ *.inl *.h *.hh *.hxx *.hpp *.h++ *.inc README.md)
+
+        doxygen_add_docs(doxygen_docs . WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+    endif ()
+
+#    Todo: Doxygen+Sphinx+ReadTheDocs+Breathe
+#    find_package(Sphinx REQUIRED COMPONENTS breathe)
+#    set(SPHINX_VERSION ${PROJECT_VERSION})
+#    set(SPHINX_LANGUAGE zh_CN)
+#    sphinx_add_docs(
+#            docs
+#            BREATHE_PROJECTS
+#            doxygen_docs
+#            BUILDER
+#            html
+#            SOURCE_DIRECTORY
+#            .)
+endif ()
+
